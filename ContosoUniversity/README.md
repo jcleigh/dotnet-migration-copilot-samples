@@ -1,6 +1,6 @@
-# Contoso University - .NET Framework 4.8.2 with Windows Authentication
+# Contoso University - .NET Framework 4.8.2
 
-This project is a ASP.NET MVC 5 targeting .NET Framework 4.8.2 with Windows Authentication enabled.
+This project is a ASP.NET MVC 5 targeting .NET Framework 4.8.2.
 
 ## Project Overview
 
@@ -8,7 +8,7 @@ This project is a ASP.NET MVC 5 targeting .NET Framework 4.8.2 with Windows Auth
 - ASP.NET MVC 5 (.NET Framework 4.8.2)
 
 ### Database Access: Entity Framework
-- EntityFrameworkCore 3.1.32
+- Entity Framework Core 3.1.32
 
 ### Project Structure
 ```
@@ -41,6 +41,7 @@ The application uses SQL Server LocalDB with the following connection string in 
    - Visual Studio 2019 or later
    - IIS Express
    - SQL Server LocalDB
+   - Microsoft Message Queue (MSMQ) Server enabled
 
 2. **Setup**:
    - Open the project in Visual Studio
