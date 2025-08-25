@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ContosoUniversity.Services;
+using ContosoUniversity.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSystemWebAdapters()
@@ -17,7 +20,19 @@ builder.Services.AddSystemWebAdapters()
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<NotificationService>();
 
+// Configure Entity Framework
+builder.Services.AddDbContext<SchoolContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
+
+// Initialize database (moved from Global.asax.cs)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<SchoolContext>();
+    DbInitializer.Initialize(context);
+}
 
 if (!app.Environment.IsDevelopment())
 {
