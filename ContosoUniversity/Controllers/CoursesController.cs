@@ -91,7 +91,10 @@ namespace ContosoUniversity.Controllers
                         var filePath = Path.Combine(uploadsPath, fileName);
 
                         // Save file
-                        teachingMaterialImage.SaveAs(filePath);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            teachingMaterialImage.CopyTo(stream);
+                        }
                         course.TeachingMaterialImagePath = $"~/Uploads/TeachingMaterials/{fileName}";
                     }
                     catch (Exception ex)
@@ -184,7 +187,10 @@ namespace ContosoUniversity.Controllers
                         }
 
                         // Save new file
-                        teachingMaterialImage.SaveAs(filePath);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            teachingMaterialImage.CopyTo(stream);
+                        }
                         course.TeachingMaterialImagePath = $"~/Uploads/TeachingMaterials/{fileName}";
                     }
                     catch (Exception ex)
