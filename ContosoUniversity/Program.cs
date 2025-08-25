@@ -7,14 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSystemWebAdapters()
-    .AddWrappedAspNetCoreSession()
-    .AddJsonSessionSerializer(options =>
-    {
-        options.RegisterKey<string>("MachineName");
-        options.RegisterKey<string>("SessionStartTime");
-    })
-    .AddHttpApplication<MvcApplication>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,6 +15,15 @@ builder.Services.AddSingleton<NotificationService>();
 // Configure Entity Framework
 builder.Services.AddDbContext<SchoolContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -46,13 +47,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
-app.UseSystemWebAdapters();
-
-app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.Run();
