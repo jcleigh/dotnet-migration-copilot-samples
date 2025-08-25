@@ -1,18 +1,19 @@
 using System;
-using System.Web.Mvc;
 using ContosoUniversity.Services;
 using ContosoUniversity.Models;
 using ContosoUniversity.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContosoUniversity.Controllers
 {
     public abstract class BaseController : Controller
     {
         protected SchoolContext db;
-        protected NotificationService notificationService = new NotificationService();
+        protected NotificationService notificationService;
 
-        public BaseController()
+        public BaseController(NotificationService notificationService)
         {
+            this.notificationService = notificationService;
             db = SchoolContextFactory.Create();
         }
 
@@ -40,7 +41,6 @@ namespace ContosoUniversity.Controllers
             if (disposing)
             {
                 db?.Dispose();
-                notificationService?.Dispose();
             }
             base.Dispose(disposing);
         }
