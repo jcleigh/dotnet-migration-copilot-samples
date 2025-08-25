@@ -48,12 +48,11 @@ app.UseRouting();
 app.UseSession();
 app.UseSystemWebAdapters();
 
-app.MapControllers()
-    .RequireSystemWebAdapterSession();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
-    .RequireSystemWebAdapterSession();
+
 
 app.Run();
