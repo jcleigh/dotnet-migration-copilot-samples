@@ -8,6 +8,7 @@ using ContosoUniversity.Models;
 using ContosoUniversity.Services;
 using ContosoUniversity.Models.SchoolViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ContosoUniversity.Controllers
 {
@@ -151,8 +152,7 @@ namespace ContosoUniversity.Controllers
                .Where(i => i.ID == id)
                .Single();
 
-            if (TryUpdateModel(instructorToUpdate, "",
-               new string[] { "LastName", "FirstMidName", "HireDate", "OfficeAssignment" }))
+            if (TryUpdateModelAsync<Instructor>(instructorToUpdate, "", new string[] { "LastName", "FirstMidName", "HireDate", "OfficeAssignment" }).Result)
             {
                 try
                 {
